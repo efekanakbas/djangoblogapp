@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="row">
+    <div class="col-lg-8">
+        <!-- Post content-->
+        <article>
+            <!-- Post author-->
+            <header class="mb-4">
+                <!-- Post title-->
+                <hr>
+                <h1 class="mt-4 text-center">{{article.title}}</h1>
+                <hr>
+                <!-- Post title-->
+                <p class="lead">by <b>{{article.author.username}}</b></p><hr>
+                <!-- Post date-->
+                <div class="text-muted fst-italic mb-2"><b>Yüklenme Tarihi:</b>{{article.created_time}}</div><hr><hr>
+                <!-- Post categories-->
+            </header>
+            <!-- Preview image figure-->
+            {% if article.article_image %}
+            <figure class="mb-4"><img class="img-fluid rounded" src="{{article.article_image.url}}" alt="..." /></figure>
+            {% endif %}
+            
+            
+            <!-- Post content-->
+            <section class="mb-5">
+                {{article.content|safe}} <hr>
+            </section>
+            <section class="mb-5">
+                <div class="card bg-light">
+                    <h5 class="card-header">Bir Yorum Bırak</h5>
+                    <div class="card-body">
+            <form method="POST" action="{%url 'article:comments' article.id%}">
+                {%csrf_token%}
+                <div class="form-group">
+                  <label for="name">İsim</label>
+                  <input type="text" class="form-control" id="name" name="comment_author" aria-describedby="namehelp" placeholder="İsim Giriniz">
+                  <small id="nameHelp" class="form-text text-muted">Yorum yazmak için isminizi yazmanız yeterli</small>
+                </div>
+                <div class="form-group">
+                  <label for="comment">Yorum</label>
+                  <textarea class="form-control" rows="3" name="comment_content" placeholder="Yorum Bırak"></textarea>
+                </div>
+                <button type="submit"  class="btn btn-primary">Gönder</button>
+              </form>
+              {% if comments %}
+                    {% for comment in comments %}
+                    <section style="background-color:ghostwhite">
+                        <div class="container my-2 py-2 text-dark">
+                          <div class="row d-flex justify-content-center">
+                            <div class="col-md-11 col-lg-9 col-xl-12">
+                              <div class="d-flex flex-start mb-4">
+                                <div class="card w-100">
+                                  <div class="card-body p-4">
+                                    <div class="">
+                                      <h5>{{comment.comment_author}}</h5>
+                                      <p class="small">{{comment.comment_date}}</p>
+                                      <p>
+                                        {{comment.comment_content}}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              </div>
+                            </div>
+                          </div>
+                      </section>
+                    {% endfor %}
+                    
+              {% else %}
+                    <div>Henüz Bir Yorum Yok</div>
+              {% endif %}
+              
+              
+            </section></div></div>
+        </article>
+        
+    </div>
+    
+</div>
+{% endblock %}
+
+

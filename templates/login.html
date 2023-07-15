@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block body %}
+{% load crispy_forms_tags %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <h1>Giriş Yap</h1> <hr>
+        <form method="post">
+            {% csrf_token %}
+            {{form | crispy}}
+            <button type="submit" class="btn btn-success">Giriş</button>
+        </form>
+    </div>
+  </div>
+
+{% endblock %}
+
+
+
+
+
+
+
